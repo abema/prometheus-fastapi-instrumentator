@@ -29,7 +29,7 @@ class Info:
         response: Optional[Response],
         method: str,
         service: str,
-        client_service: str,
+        client_host_service: str,
         modified_handler: str,
         modified_status: str,
         modified_duration: float,
@@ -54,7 +54,7 @@ class Info:
         self.response = response
         self.method = method
         self.service = service
-        self.client_service = client_service
+        self.client_host_service = client_host_service
         self.modified_handler = modified_handler
         self.modified_status = modified_status
         self.modified_duration = modified_duration
@@ -65,7 +65,7 @@ def _build_label_attribute_names(
     should_include_method: bool,
     should_include_status: bool,
     should_include_service: bool,
-    should_include_client_service: bool,
+    should_include_client_host_service: bool,
 ) -> Tuple[list, list]:
     """Builds up tuple with to be used label and attribute names.
 
@@ -74,7 +74,7 @@ def _build_label_attribute_names(
         should_include_method (bool): Should the `method` label be part of the metric?
         should_include_status (bool): Should the `status` label be part of the metric?
         should_include_service (bool): Should the `service` label be part of the metric?
-        should_include_client_service (bool): Should the `client_host_service` label be part of the metric?
+        should_include_client_host_service (bool): Should the `client_host_service` label be part of the metric?
 
     Returns:
         Tuple with two list elements.
@@ -103,7 +103,7 @@ def _build_label_attribute_names(
         label_names.append("service")
         info_attribute_names.append("service")
 
-    if should_include_client_service:
+    if should_include_client_host_service:
         label_names.append("client_host_service")
         info_attribute_names.append("client_host_service")
 
@@ -123,7 +123,7 @@ def latency(
     should_include_method: bool = True,
     should_include_status: bool = True,
     should_include_service: bool = True,
-    should_include_client_service: bool = True,
+    should_include_client_host_service: bool = True,
     buckets: tuple = (
         5000,
         10000,
@@ -165,7 +165,7 @@ def latency(
         should_include_service: Should the `service` label be part of the
             metric? Defaults to `True`.
 
-        should_include_client_service: Should the `client_host_service` label be part of the
+        should_include_client_host_service: Should the `client_host_service` label be part of the
             metric? Defaults to `True`.
 
         buckets: Buckets for the histogram. Defaults to Prometheus default.
@@ -183,7 +183,7 @@ def latency(
         should_include_method,
         should_include_status,
         should_include_service,
-        should_include_client_service,
+        should_include_client_host_service,
     )
 
     if label_names:
@@ -228,7 +228,7 @@ def request_size(
     should_include_method: bool = True,
     should_include_status: bool = True,
     should_include_service: bool = True,
-    should_include_client_service: bool = True,
+    should_include_client_host_service: bool = True,
 ) -> Callable[[Info], None]:
     """Record the content length of incoming requests.
 
@@ -251,7 +251,7 @@ def request_size(
             Defaults to `True`.
         should_include_service: Should the `service` label be part of the metric?
             Defaults to `True`.
-        should_include_client_service: Should the `client_host_service` label be part of the metric?
+        should_include_client_host_service: Should the `client_host_service` label be part of the metric?
             Defaults to `True`.
 
     Returns:
@@ -263,7 +263,7 @@ def request_size(
         should_include_method,
         should_include_status,
         should_include_service,
-        should_include_client_service,
+        should_include_client_host_service,
     )
 
     if label_names:
@@ -301,13 +301,13 @@ def request_size(
 def response_size(
     metric_name: str = "http_response_size_bytes",
     metric_doc: str = "Content bytes of responses.",
-    metric_namespace: str = "",
+    metric_namespace: str = "",_
     metric_subsystem: str = "",
     should_include_handler: bool = True,
     should_include_method: bool = True,
     should_include_status: bool = True,
     should_include_service: bool = True,
-    should_include_client_service: bool = True,
+    should_include_client_host_service: bool = True,
 ) -> Callable[[Info], None]:
     """Record the content length of outgoing responses.
 
@@ -338,7 +338,7 @@ def response_size(
         should_include_service: Should the `service` label be part of the metric?
             Defaults to `True`.
 
-        should_include_client_service: Should the `client_host_service` label be part of the
+        should_include_client_host_service: Should the `client_host_service` label be part of the
             metric? Defaults to `True`.
 
     Returns:
@@ -350,7 +350,7 @@ def response_size(
         should_include_method,
         should_include_status,
         should_include_service,
-        should_include_client_service,
+        should_include_client_host_service,
     )
 
     if label_names:
@@ -398,7 +398,7 @@ def combined_size(
     should_include_method: bool = True,
     should_include_status: bool = True,
     should_include_service: bool = True,
-    should_include_client_service: bool = True,
+    should_include_client_host_service: bool = True,
 ) -> Callable[[Info], None]:
     """Record the combined content length of requests and responses.
 
@@ -429,7 +429,7 @@ def combined_size(
         should_include_service: Should the `service` label be part of the metric?
             Defaults to `True`.
 
-        should_include_client_service: Should the `client_host_service` label be part of the
+        should_include_client_host_service: Should the `client_host_service` label be part of the
             metric? Defaults to `True`.
 
     Returns:
@@ -441,7 +441,7 @@ def combined_size(
         should_include_method,
         should_include_status,
         should_include_service,
-        should_include_client_service,
+        should_include_client_host_service,
     )
 
     if label_names:
@@ -493,7 +493,7 @@ def requests(
     should_include_method: bool = True,
     should_include_status: bool = True,
     should_include_service: bool = True,
-    should_include_client_service: bool = True,
+    should_include_client_host_service: bool = True,
 ) -> Callable[[Info], None]:
     """Record the number of requests.
 
@@ -522,7 +522,7 @@ def requests(
         should_include_service (bool, optional): Should the `service` label be
             part of the metric? Defaults to `True`.
 
-        should_include_client_service: Should the `client_host_service` label be part of the
+        should_include_client_host_service: Should the `client_host_service` label be part of the
             metric? Defaults to `True`.
 
     Returns:
@@ -534,7 +534,7 @@ def requests(
         should_include_method,
         should_include_status,
         should_include_service,
-        should_include_client_service,
+        should_include_client_host_service,
     )
 
     if label_names:
