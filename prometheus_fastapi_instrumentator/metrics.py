@@ -301,7 +301,7 @@ def request_size(
 def response_size(
     metric_name: str = "http_response_size_bytes",
     metric_doc: str = "Content bytes of responses.",
-    metric_namespace: str = "",_
+    metric_namespace: str = "",
     metric_subsystem: str = "",
     should_include_handler: bool = True,
     should_include_method: bool = True,
